@@ -1,4 +1,4 @@
-let mysql = require("../db");
+let mysql = require("./db");
 
 class User {
     constructor(id, name, password, role)
