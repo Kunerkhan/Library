@@ -1,10 +1,10 @@
     var mysql = require('mysql');
 
-    const users = require('../controllers/getUsers');
+    const users = require('../controllers/UserController');
 
     var connection = mysql.createConnection({
         host     : '127.0.0.1',
-        user     : 'root',
+        user : 'root',
         password : 'password',
         database : 'petprojects'
     });

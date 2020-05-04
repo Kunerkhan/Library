@@ -23,7 +23,7 @@ module.exports = sequelize => {
       field: "user_name"
     },
     user_password: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.STRING(30),
       allowNull: true,
       defaultValue: null,
       primaryKey: false,
@@ -53,8 +53,12 @@ module.exports = sequelize => {
       unique: false,
       type: "BTREE",
       fields: ["user_role"]
-    }]
+    }],
+      freezeTableName: true,
+      timestamps: false
   };
+
   const UsersModel = sequelize.define("users_model", attributes, options);
+
   return UsersModel;
 };
