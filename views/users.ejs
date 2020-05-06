@@ -5,23 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users</title>
     <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/table.css">
 </head>
 <body>
     <div class="main">
-        
-        <div class="main_table">
-            <table>
-                <tr>
-                    <td>№</td>
-                    <td>Имя</td>
-                    <td>Пароль</td>
-                    <td>Роль</td>
-                </tr>
-        
-            </table>
+        <div class="container">
+            <div class="main_table">
+                <h2>Пользователи</h2>
+                <table>
+                    <tr class="tr_user">
+                        <th class="td_user">№</th>
+                        <th class="td_user">Имя</th>
+                        <th class="td_user">Пароль</th>
+                        <th class="td_user">Роль</th>
+                        <th class="td_user">Действия</th>
+                    </tr>
+                    <% if(locals.users) {%>
+                        <% for(var i=0; i<users.length;i++) {%>
+                            <tr id="<%= users[i].user_id %>">
+                                <td><%=users[i].user_id %></td>
+                                <td><%=users[i].user_name %></td>
+                                <td><%=users[i].user_password %></td>
+                                <td><%=users[i].user_role == 1 ? 'Admin' : 'User' %></td>
+                                <td>
+                                    <button onClick="" id="delete">Удалить</button>
+                                    <button id="edit">Редактировать</button>
+                                </td>
+                            </tr>    
+                        <%} %>
+                    <% }%>
+                
+                </table>
+            </div>  
         </div>
-
     </div>
-
 </body>
 </html>
