@@ -13,19 +13,6 @@ module.exports = sequelize => {
       comment: null,
       field: "code"
     },
-    user_id: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "user_id",
-      references: {
-        key: "user_id",
-        model: "users_model"
-      }
-    },
     permision_code: {
       type: DataTypes.INTEGER(11),
       allowNull: true,
@@ -37,6 +24,19 @@ module.exports = sequelize => {
       references: {
         key: "permision_code",
         model: "permisions_model"
+      }, 
+    },
+    user_role: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true,
+      defaultValue: null,
+      primaryKey: false,
+      autoIncrement: false,
+      comment: null,
+      field: "user_role",
+      references: {
+        key: "role_id",
+        model: "roles_model"
       }
     }
   };
@@ -44,17 +44,19 @@ module.exports = sequelize => {
     tableName: "userpermisions",
     comment: "",
     indexes: [{
-      name: "user_id",
+      name: "user_role",
       unique: false,
       type: "BTREE",
-      fields: ["user_id"]
+      fields: ["user_role"]
     }, {
       name: "permision_code",
       unique: false,
       type: "BTREE",
       fields: ["permision_code"]
-    }]
+    }],
   };
-  const UserpermisionsModel = sequelize.define("userpermisions_model", attributes, options);
+  const UserpermisionsModel = sequelize.define("userpermisions_model", attributes, options, {
+    timestamps: false
+});
   return UserpermisionsModel;
 };

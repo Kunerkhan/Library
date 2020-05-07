@@ -1,0 +1,21 @@
+const  ADD_BOOK = 1;
+const GET_BOOKS = 5;
+const CHANGE_ROLE = 10;
+const DELETE_BOOK = 2;
+const DELETE_USER = 3;
+const DOWNLOAD_BOOK = 8;
+const ADD_USER = 4;
+const GET_USERS = 11;
+
+const ADD_USER_BOOK = 7;
+const EDIT_USER_PROFILE = 9;
+const GET_USER_BOOK = 6;
+
+module.exports = {
+    ADD_BOOK, GET_BOOKS,
+    CHANGE_ROLE, DELETE_BOOK,
+    DELETE_USER, DOWNLOAD_BOOK,
+    ADD_USER, ADD_USER_BOOK,
+    EDIT_USER_PROFILE, GET_USER_BOOK,
+    GET_USERS
+}

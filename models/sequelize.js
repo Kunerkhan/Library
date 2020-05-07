@@ -15,7 +15,10 @@ const {DATABASE_NAME,USER,PASSWORD,HOST,DIALECT} =require('./constants')
 
 const sequelize = new Sequelize(DATABASE_NAME, USER, PASSWORD, {
     host: HOST,
-    dialect: DIALECT
+    dialect: DIALECT,
+    define: {
+        timestamps: false
+      }
 });
 
 const BookTB = BOOKMODEL(sequelize, Sequelize);

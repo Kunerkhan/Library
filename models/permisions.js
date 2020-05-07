@@ -26,8 +26,11 @@ module.exports = sequelize => {
   const options = {
     tableName: "permisions",
     comment: "",
-    indexes: []
+    indexes: [],
+    define: {
+      timestamps: false
+    }
   };
-  const PermisionsModel = sequelize.define("permisions_model", attributes, options);
+  const PermisionsModel = sequelize.define("permisions_model", attributes, options, );
   return PermisionsModel;
 };

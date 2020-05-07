@@ -58,7 +58,9 @@ module.exports = sequelize => {
       timestamps: false
   };
 
-  const UsersModel = sequelize.define("users_model", attributes, options);
+  const UsersModel = sequelize.define("users_model", attributes, options, {
+    timestamps: false
+});
 
   return UsersModel;
 };

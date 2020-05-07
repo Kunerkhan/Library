@@ -6,7 +6,10 @@
         host     : '127.0.0.1',
         user : 'root',
         password : 'password',
-        database : 'petprojects'
+        database : 'petprojects',
+        define: {
+            timestamps: false
+          }
     });
 
     connection.connect(function(err){

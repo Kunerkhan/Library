@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var app = express();
 
-var UsersRouter = require('./routes/users');
+var UsersRouter = require('./routes/router');
 
 
 // view engine setup
@@ -29,6 +29,20 @@ db.PermisionsTB.sync();
 db.UserPermissionsTB.sync();
 
 app.use(UsersRouter);
+
+app.use(async (req, res, next) => {
+  if (req.headers["x-access-token"]) {
+   const accessToken = req.headers["x-access-token"];
+   const { userId, exp } = await jwt.verify(accessToken, process.env.JWT_SECRET);
+   // Check if token has expired
+   if (exp < Date.now().valueOf() / 1000) { 
+    return res.status(401).json({ error: "JWT token has expired, please login to obtain a new one" });
+   } 
+   res.locals.loggedInUser = await User.findById(userId); next(); 
+  } else { 
+   next(); 
+  } 
+ });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
