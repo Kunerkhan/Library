@@ -7,10 +7,8 @@ module.exports = sequelize => {
     permision_code: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      defaultValue: null,
       primaryKey: true,
       autoIncrement: true,
-      comment: null,
       field: "permision_code"
     },
     permision_name: {
@@ -23,14 +21,6 @@ module.exports = sequelize => {
       field: "permision_name"
     }
   };
-  const options = {
-    tableName: "permisions",
-    comment: "",
-    indexes: [],
-    define: {
-      timestamps: false
-    }
-  };
-  const PermisionsModel = sequelize.define("permisions_model", attributes, options, );
+  const PermisionsModel = sequelize.define("permisions", attributes);
   return PermisionsModel;
 };

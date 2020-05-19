@@ -1,4 +1,7 @@
-const Sequelize = require('sequelize')
+const Sequelize = require('sequelize');
+const {
+  DataTypes
+} = require('sequelize');
 const mysql = require('mysql');
 
 const AUTHORMODEL = require('./author');
@@ -30,9 +33,39 @@ const UserPermissionsTB = USERPERMISSIONSMODEL(sequelize, Sequelize);
 const UserTB = USERMODEL(sequelize, Sequelize);
 const RolesTB = ROLESMODEL(sequelize, Sequelize);
 
+AuthorTB.hasMany(BookTB, { foreignKey: 'author_id'});
+BookTB.belongsTo(AuthorTB,  { foreignKey: 'author_id' });
+RolesTB.hasMany(UserTB, {  foreignKey: {
+  name: 'role_id'
+},
+targetKey: 'role_id',
+onDelete: 'CASCADE',
+onUpdate: 'CASCADE'
+});
+UserTB.belongsTo(RolesTB, {
+  foreignKey: {
+    name: 'role_id'
+  },
+  targetKey: 'role_id',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+UserTB.belongsToMany(PermisionsTB, { through: UserPermissionsTB, foreignKey: 'user_id', timestamps: false});
+PermisionsTB.belongsToMany(UserTB, { through: UserPermissionsTB, foreignKey: 'permision_id', timestamps: false});
+
+UserTB.hasMany(UserBooksTB, { foreignKey: 'user_id'});
+UserBooksTB.belongsTo(UserTB, { foreignKey: 'user_id'});
+
+BookTB.hasMany(UserTB, { foreignKey: 'book_id'} );
+UserTB.belongsTo(BookTB, { foreignKey: 'book_id'})
+
+AuthorTB.belongsToMany(BookTB, { through: LibraryTB, foreignKey: 'book_id', timestamps: false });
+BookTB.belongsToMany(AuthorTB, { through: LibraryTB, foreignKey: 'author_id', timestamps: false });
+
+
 sequelize.sync({ force: false })
 .then(() => {
-console.log(`Database & tables created here!`)
+console.log(`Database & tables created here!`);
 })
 
 module.exports = {

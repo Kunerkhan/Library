@@ -1,7 +1,7 @@
 const HOST     = '127.0.0.1';
 const USER     = 'root';
 const PASSWORD = 'password';
-const DATABASE_NAME = 'petprojects';
+const DATABASE_NAME = 'rkp';
 const DIALECT= 'mysql';
 
 module.exports = {

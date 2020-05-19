@@ -16,7 +16,7 @@ exports.checkPermission = (codename, role) => {
             ]
         }
     }).then(action => {
-          console.log(action);
+         
           if(!action && action === null)
             {
                 return false;

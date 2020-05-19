@@ -7,7 +7,6 @@ module.exports = sequelize => {
     role_id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      defaultValue: null,
       primaryKey: true,
       autoIncrement: true,
       comment: null,
@@ -23,11 +22,6 @@ module.exports = sequelize => {
       field: "role_name"
     }
   };
-  const options = {
-    tableName: "roles",
-    comment: "",
-    indexes: []
-  };
-  const RolesModel = sequelize.define("roles_model", attributes, options);
+  const RolesModel = sequelize.define("roles", attributes);
   return RolesModel;
 };
