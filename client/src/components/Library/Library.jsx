@@ -106,7 +106,17 @@ class Library extends React.Component {
                                             <tr key={book.library_code} id={book.library_code}>
                                                 <td>{book.library_code}</td>
                                                 <td>{book.book_name}</td>
-                                                <td>{book.author_name}</td>
+                                                <td>
+                                                    { book.authors && book.authors.map(creator => {
+                                                        return(
+                                                            <p key={creator.author_id}>
+                                                                {
+                                                                    creator.author_name
+                                                                }
+                                                            </p>
+                                                        )
+                                                    })}
+                                                </td>
                                                 {role == "Admin" ? (
                                                     <td>
                                                         <button onClick={this.deleteBook}>Удалить</button>

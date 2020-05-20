@@ -14,7 +14,6 @@ module.exports = sequelize => {
     book_name: {
       type: DataTypes.STRING(50),
       allowNull: false,
-      unique: true,
       field: "book_name"
     }
   };

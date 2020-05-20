@@ -13,8 +13,7 @@ module.exports = sequelize => {
     },
     author_name: {
       type: DataTypes.STRING(50),
-      allowNull: false,
-      unique: true
+      allowNull: false
     }
   };
   const AuthorModel = sequelize.define("author", attributes);

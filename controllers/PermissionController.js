@@ -12,7 +12,7 @@ exports.checkPermission = (codename, role) => {
         where: {
             [Op.and]: [
                 { permision_code: permission },
-                { user_role: roleId }
+                { role_id: roleId }
             ]
         }
     }).then(action => {

@@ -33,9 +33,7 @@ const UserPermissionsTB = USERPERMISSIONSMODEL(sequelize, Sequelize);
 const UserTB = USERMODEL(sequelize, Sequelize);
 const RolesTB = ROLESMODEL(sequelize, Sequelize);
 
-AuthorTB.hasMany(BookTB, { foreignKey: 'author_id'});
-BookTB.belongsTo(AuthorTB,  { foreignKey: 'author_id' });
-RolesTB.hasMany(UserTB, {  foreignKey: {
+RolesTB.hasMany(UserTB,  { foreignKey: {
   name: 'role_id'
 },
 targetKey: 'role_id',
@@ -50,17 +48,15 @@ UserTB.belongsTo(RolesTB, {
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE'
 });
-UserTB.belongsToMany(PermisionsTB, { through: UserPermissionsTB, foreignKey: 'user_id', timestamps: false});
-PermisionsTB.belongsToMany(UserTB, { through: UserPermissionsTB, foreignKey: 'permision_id', timestamps: false});
 
-UserTB.hasMany(UserBooksTB, { foreignKey: 'user_id'});
-UserBooksTB.belongsTo(UserTB, { foreignKey: 'user_id'});
+UserTB.belongsToMany(PermisionsTB, { through: UserPermissionsTB, foreignKey: 'role_id', sourceKey: 'role_id', timestamps: false});
+PermisionsTB.belongsToMany(UserTB, { through: UserPermissionsTB, foreignKey: 'permision_code', sourceKey: 'permision_code',  timestamps: false});
 
-BookTB.hasMany(UserTB, { foreignKey: 'book_id'} );
-UserTB.belongsTo(BookTB, { foreignKey: 'book_id'})
+AuthorTB.belongsToMany(BookTB, { through: LibraryTB, foreignKey: 'author_id', timestamps: false });
+BookTB.belongsToMany(AuthorTB, { through: LibraryTB, foreignKey: 'book_id', timestamps: false });
 
-AuthorTB.belongsToMany(BookTB, { through: LibraryTB, foreignKey: 'book_id', timestamps: false });
-BookTB.belongsToMany(AuthorTB, { through: LibraryTB, foreignKey: 'author_id', timestamps: false });
+UserTB.belongsToMany(BookTB, { through: UserBooksTB, foreignKey: 'user_id',  timestamps: false});
+BookTB.belongsToMany(UserTB, { through: UserBooksTB, foreignKey: 'book_id',  timestamps: false});
 
 
 sequelize.sync({ force: false })

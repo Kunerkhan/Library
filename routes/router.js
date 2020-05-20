@@ -6,11 +6,6 @@ const userController = require('../controllers/UserController');
 const libraryController = require('../controllers/LibraryController');
 const rolesController = require('../controllers/RolesController');
 
-var corsOptions = {
-    origin: 'http://localhost:3001',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
-
 router.post('/addUser', userController.addUser);
 
 router.post('/login', userController.login);
