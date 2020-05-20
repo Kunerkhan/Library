@@ -7,6 +7,7 @@ exports.checkPermission = (codename, role) => {
     
     let permission = codename;
     let roleId = Number(role);
+    console.log(roleId)
 
     return UserPermissionsTB.findOne({
         where: {

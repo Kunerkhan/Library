@@ -7,13 +7,9 @@ import './User.css';
 class EditUser extends React.Component {
 
     state = {
-        user: {},
-        username: '',
-        userpassword: '',
-        userrole: 2,
-        roles: this.props.data.role,
-        show: this.props.data.show,
-        user_id: this.props.data.user_id
+        username: "",
+        userpassword: "",
+        userrole: null
     }
 
     handleChanges = (e) => {
@@ -25,43 +21,17 @@ class EditUser extends React.Component {
 
     }
 
-    getUser = async () => {
-
-        let id = this.props.data.user_id;
-        console.log(id);
-        if(id)
-        {
-            const res = await fetch(`http://localhost:8080/user/${id}`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `${localStorage.getItem('user_role')}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-            const json = await res.json();
-            const data = json;
-            this.setState({
-                username: data && data.user_name,
-                password: data && data.user_password,
-                userrole: data && data.user_role
-            });
-        }
-
-    }
-
     saveEdit = (e) => {
         e.preventDefault();
 
         let err;
-        let id = this.props.user_id;
+        let id = this.props.edit.user_id;
 
         const changes = {
-            user_name: this.state.user_name,
-            user_password: this.state.user_password,
-            user_role: this.state.user_role
+            user_name: this.state.username,
+            user_password: this.state.userpassword,
+            role_id: this.state.userrole
         }
-
-        console.log(changes);
 
         const config = {
             headers: {
@@ -72,11 +42,8 @@ class EditUser extends React.Component {
         axios.post(`http://localhost:8080/editUser/${id}`, changes, config)
             .then(res => {
                 if (res.status >= 200) {
+                   
                     alert("Данные пользователя изменены");
-                    this.setState({
-                        show: false
-                    });
-                    this.getUser();
                 }
                 if (res.status == 400) {
                     console.log(res.statusText);
@@ -94,35 +61,26 @@ class EditUser extends React.Component {
             });
     }
 
-    componentWillMount = async () => {
-
-            await this.getUser();
-        
-        
-        console.log("dd",this.state.user);
-
-    }
-
     render() {
 
-        const roles = this.props.data.role;
-        const show = this.props.data.show;
-        const user = this.props.data.id;
-
-        console.log("daaa", user)
+        const roles = this.props.roles;
+        const show = this.props.show;
+        const user = this.props.edit;
 
         return (
             <div className={show ? "edit_user" : "edit_user--hide"}>
                 <h3>Редактировать пользователя</h3>
 
-                <form className="add_form" onSubmit={this.addUser}>
+                <form className="add_form" onSubmit={this.saveEdit}>
                     <label className="login_label">Логин: </label>
                     <input
                         className="login_input"
                         type="text"
                         name="username"
+                        autocomplete={user && user.user_name}
                         id="name" required
-                        value={user && user.user_name}
+                        value={this.state.username}
+                        placeholder={user && user.user_name}
                         onChange={this.handleChanges}
                     />
                     <label className="login_label">Пароль: </label>
@@ -130,11 +88,13 @@ class EditUser extends React.Component {
                         className="login_input"
                         type="password"
                         name="userpassword"
+                        autocomplete={user && user.user_password}
                         id="password" required
-                        value={user && user.user_password}
+                        placeholder={user && user.user_password}
+                        value={this.state.userpassword}
                         onChange={this.handleChanges}
                     />
-                    <select name="user_role" id="select" value={user && user.user_role} onChange={this.handleChanges}>
+                    <select name="userrole" id="select" value={this.state.userrole} onChange={this.handleChanges}>
                         {
                             roles && roles.map((role) => {
                                 return (
@@ -142,8 +102,9 @@ class EditUser extends React.Component {
                                     <option
                                         className="roleoption"
                                         key={role.role_id}
-                                        value={user && user.user_role == role.role_id} selected>
-                                        {role.role_name}
+                                        value={role.role_id}
+                                        selected>
+                                        {role.role_name} 
                                     </option>
                                 )
                             })

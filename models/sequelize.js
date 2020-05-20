@@ -36,21 +36,17 @@ const RolesTB = ROLESMODEL(sequelize, Sequelize);
 RolesTB.hasMany(UserTB,  { foreignKey: {
   name: 'role_id'
 },
-targetKey: 'role_id',
-onDelete: 'CASCADE',
-onUpdate: 'CASCADE'
+targetKey: 'role_id'
 });
 UserTB.belongsTo(RolesTB, {
   foreignKey: {
     name: 'role_id'
   },
-  targetKey: 'role_id',
-  onDelete: 'CASCADE',
-  onUpdate: 'CASCADE'
+  targetKey: 'role_id'
 });
 
-UserTB.belongsToMany(PermisionsTB, { through: UserPermissionsTB, foreignKey: 'role_id', sourceKey: 'role_id', timestamps: false});
-PermisionsTB.belongsToMany(UserTB, { through: UserPermissionsTB, foreignKey: 'permision_code', sourceKey: 'permision_code',  timestamps: false});
+RolesTB.belongsToMany(PermisionsTB, { through: UserPermissionsTB, foreignKey: 'role_id', sourceKey: 'role_id', timestamps: false});
+PermisionsTB.belongsToMany(RolesTB, { through: UserPermissionsTB, foreignKey: 'permision_code', sourceKey: 'permision_code',  timestamps: false});
 UserTB.belongsToMany(BookTB, { through: UserBooksTB, foreignKey: 'user_id',  timestamps: false});
 BookTB.belongsToMany(UserTB, { through: UserBooksTB, foreignKey: 'book_id',  timestamps: false});
 AuthorTB.belongsToMany(BookTB, { through: LibraryTB, foreignKey: 'author_id', timestamps: false });

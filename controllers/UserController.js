@@ -11,7 +11,7 @@ const {
   ADD_USER, ADD_USER_BOOK,
   EDIT_USER_PROFILE, GET_USER_BOOK,
   GET_USERS, SEARCH_BOOK,
-  GET_USER_ID
+  GET_USER_ID, EDIT_USER
 } = require('./roles');
 
 
@@ -67,23 +67,54 @@ exports.getUsers = async (req, res) => {
         });
       });
   }
+  else
+  {
+    res.status(401).send("Access denied");
+  }
 };
 
 exports.getUserById = async (req, res) => {
 
   let { authorization } = req.headers;
   const id = req.params.id;
-
+  
   let access = await checkPermission(GET_USER_ID, authorization);
 
   if (access) {
     UserTB.findOne({
-      attributes: ['user_id', 'user_name', 'user_password', 'user_role'],
+      include: {
+        model: BookTB,
+        include: AuthorTB
+      },
       where: {
         user_id: id
       }
     }).then(user => {
-      res.status(200).json(user);
+      if(user)
+      {
+        let userInfo = 
+          {
+            user_id: user.dataValues.user_id,
+            user_name: user.dataValues.user_name,
+            user_password: user.dataValues.user_password,
+            role_id: user.dataValues.role_id,
+            books: user.dataValues.books.map((item) => {
+              return {
+                book_id: item.book_id,
+                book_name: item.book_name,
+                authors: item.authors.map((author) => {
+                  return {
+                    author_id: author.author_id,
+                    author_name: author.author_name
+                  }
+                })
+              }
+            })
+          };
+      
+        res.status(200).json(userInfo);
+      }
+      
     })
       .catch(err => {
         res.status(500).send({
@@ -128,7 +159,7 @@ exports.deleteUser = async (req, res) => {
 
 exports.addUser = async (req, res) => {
 
-  const { user_name, user_password, user_role } = req.body;
+  const { user_name, user_password, role_id } = req.body;
   let { authorization } = req.headers;
 
   let access = await checkPermission(ADD_USER, authorization);
@@ -136,7 +167,7 @@ exports.addUser = async (req, res) => {
 
   if (access) {
     UserTB.create({
-      user_role: user_role, user_name: user_name, user_password: user_password
+      role_id: role_id, user_name: user_name, user_password: user_password
     })
       .then(user => {
         res.status(200).send(`User was created.`);
@@ -158,15 +189,16 @@ exports.addUser = async (req, res) => {
 exports.editUser = async (req, res) => {
 
   const id = req.params.id;
+  console.log(req.params);
   let { authorization } = req.headers;
-  const { user_name, user_password } = req.body;
+  const { user_name, user_password, role_id } = req.body;
 
   let access = await checkPermission(EDIT_USER, authorization);
-  console.log(access);
+ 
 
   if (access) {
     UserTB.update({
-      user_role: user_role, user_name: user_name, user_password: user_password
+      role_id: role_id, user_name: user_name, user_password: user_password
     },
       {
         where: {

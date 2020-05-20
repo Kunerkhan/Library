@@ -10,10 +10,11 @@ class User extends React.Component {
         users: [],
         user_name: '',
         user_password: '',
-        user_role: 2,
+        user_role: null,
         roles: [],
         user_id: 0,
-        user: {}
+        user_edit: {},
+        show: false
     }
 
     getUsers = async () => {
@@ -62,21 +63,25 @@ class User extends React.Component {
             });
     }
 
-    editUser = (id) => {
+    editUser = async(id) => {
 
-        this.getUser();
 
-        this.setState({
-            show: true,
-            user_id: id
-        });
 
-        if(this.state.show)
+        if(!this.state.show)
         {
             this.setState({
+                show: true
+            });
+            await this.getUserById(id);
+        }
+        else 
+        {
+           this.setState({
                 show: false
             });
+          await this.getUsers();
         }
+
     }
 
     addUser = (e) => {
@@ -86,7 +91,7 @@ class User extends React.Component {
         const user = {
             user_name: this.state.user_name,
             user_password: this.state.user_password,
-            user_role: this.state.user_role
+            role_id: this.state.user_role
         }
 
         console.log(user);
@@ -125,7 +130,7 @@ class User extends React.Component {
         this.setState({
             [name]: e.target.value
         });
-
+     
     }
 
     getRoles = async () => {
@@ -136,40 +141,36 @@ class User extends React.Component {
         });
     }
 
-    getUser = async () => {
+    getUserById = async (id) => {
 
-        let id = this.state.user_id;
-        console.log(id)
-        const res = await fetch(`http://localhost:8080/user/${id}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `${localStorage.getItem('user_role')}`,
-                'Content-Type': 'application/json'
-            }
-        });
-        const json = await res.json();
-        this.setState({
-            user: json
-        });
+        if(id)
+        {
+            const res = await fetch(`http://localhost:8080/user/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `${localStorage.getItem('user_role')}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            const json = await res.json();
+            const data = json;
+            this.setState({
+                user_edit: json
+            });
+        }
+
     }
 
     componentWillMount = () => {
         this.getUsers();
         this.getRoles();
+        
     }
 
     render() {
 
         const users = this.state.users;
         const roles = this.state.roles;
-
-        console.log()
-
-        let child ={
-            id: this.state.user, 
-            role: this.state.roles,
-            show: this.state.show
-        }
 
         return (
             <div className="main">
@@ -186,13 +187,13 @@ class User extends React.Component {
                                     <th className="td_user">Действия</th>
                                 </tr>
                                 {
-                                    users && users.length ? users.map((user) => {
+                                    users && users.length ? users.map((user, i) => {
                                         return (
                                             <tr key={user.user_id} id={user.user_id}>
-                                                <td>{user.user_id}</td>
+                                                <td>{i + 1}</td>
                                                 <td>{user.user_name}</td>
                                                 <td>{user.user_password}</td>
-                                                <td>{user.user_role == 1 ? 'Admin' : 'User'}</td>
+                                                <td>{user.role_id == 1 ? 'Admin' : 'User'}</td>
                                                 <td>
                                                     <button onClick={(e) => this.deleteUser(user.user_id)}>Удалить</button>
                                                     <button onClick={(e) => this.editUser(user.user_id)}>Редактировать</button>
@@ -205,17 +206,22 @@ class User extends React.Component {
                             </table>
                         </div>
 
-                        <EditUser data={child} />
+                        <EditUser 
+                            edit={this.state.user_edit && this.state.user_edit} 
+                            show={this.state.show} 
+                            roles={this.state.roles && this.state.roles}
+                            />
 
                         <div className="add_div">
                             <h2 className="Add_USER">Добавить Пользователя</h2>
-                            <form className="add_form" onSubmit={this.addUser}>
+                            <form className="add_form" onSubmit={this.addUser} autocomplete="off">
                                 <label className="login_label">Логин: </label>
                                 <input
                                     className="login_input"
                                     type="text"
                                     name="user_name"
                                     id="name" required
+                                    autocomplete="user_name"
                                     value={this.state.user_name}
                                     onChange={this.handleChanges}
                                 />
