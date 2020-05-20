@@ -6,32 +6,14 @@ class Library extends React.Component {
         userBooks: []
     }
 
-    getUserBooks = async () => {
-        const res = await fetch(`http://localhost:8080/userbook/${localStorage.getItem('user_id')}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `${localStorage.getItem('user_role')}`,
-                'Content-Type': 'application/json'
-            }
-        });
-        const json = await res.json();
-        this.setState({
-            userBooks: json
-        });
-    }
-
     deleteBook = () => {
 
     }
 
-    componentWillMount = async() => {
-        await this.getUserBooks();
-        console.log(this.state.userBooks)
-    }
-
     render() {
 
-        const books = this.props.books;
+        const books = this.props.userBooks;
+        console.log(books);
         const role = localStorage.getItem('user_role') == 1 ? "Admin" : "User";
 
         return (
@@ -46,12 +28,20 @@ class Library extends React.Component {
 
                     </tr>
                     {
-                        books && books.length ? books.map((book) => {
+                        books && books.length ? books.map((book, i) => {
                             return (
-                                <tr key={book.library_code} id={book.library_code}>
-                                    <td>{book.library_code}</td>
+                                <tr key={book.book_id} id={book.book_id}>
+                                    <td>{i+1}</td>
                                     <td>{book.book_name}</td>
-                                    <td>{book.author_name}</td>
+                                    <td>{book.authors && book.authors.map(creator => {
+                                        return(
+                                            <p key={creator.author_id}>
+                                                {
+                                                 creator.author_name
+                                                }
+                                            </p>
+                                        )
+                                    })}</td>
                                     <td>
                                         <button onClick={this.deleteBook}>Удалить</button>
                                         <button onClick={this.editBook}>Редактировать</button>

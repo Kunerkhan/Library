@@ -26,6 +26,21 @@ class Library extends React.Component {
         });
     }
 
+    getUserBooks = async () => {
+        const res = await fetch(`http://localhost:8080/userbook/${localStorage.getItem('user_id')}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `${localStorage.getItem('user_role')}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        const json = await res.json();
+        this.setState({
+            userBooks: json
+        });
+    }
+
+
     handleChanges = (e) => {
 
         let name = e.target.name;
@@ -50,20 +65,6 @@ class Library extends React.Component {
         }); 
     }
 
-    getUserBooks = async () => {
-        const res = await fetch(`http://localhost:8080/userbook/${localStorage.getItem('user_id')}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `${localStorage.getItem('user_role')}`,
-                'Content-Type': 'application/json'
-            }
-        });
-        const json = await res.json();
-        this.setState({
-            userBooks: json
-        });
-    }
-
     deleteBook = () => {
 
     }
@@ -71,7 +72,8 @@ class Library extends React.Component {
     componentWillMount = async() => {
         await this.getBooks();
         await this.getUserBooks();
-        console.log(this.state.books)
+
+        console.log(this.state.userBooks)
     }
 
     componentDidUpdate(nextProps) {
@@ -101,10 +103,10 @@ class Library extends React.Component {
 
                                 </tr>
                                 {
-                                    books && books.length ? books.map((book) => {
+                                    books && books.length ? books.map((book, i) => {
                                         return (
                                             <tr key={book.library_code} id={book.library_code}>
-                                                <td>{book.library_code}</td>
+                                                <td>{i+1}</td>
                                                 <td>{book.book_name}</td>
                                                 <td>
                                                     { book.authors && book.authors.map(creator => {
@@ -148,7 +150,7 @@ class Library extends React.Component {
                         </div>
 
 
-                        <UserLibrary books={this.state.userBooks}/>
+                        <UserLibrary userBooks={this.state.userBooks}/>
                     </div>
                 </div>
             </div>

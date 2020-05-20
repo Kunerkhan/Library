@@ -17,7 +17,7 @@ class User extends React.Component {
     }
 
     getUsers = async () => {
-        const res = await fetch('http://localhost:8080/user', {
+        const res = await fetch('http://localhost:8080/users', {
             method: 'GET',
             headers: {
                 'Authorization': `${localStorage.getItem('user_role')}`,

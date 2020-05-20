@@ -51,12 +51,13 @@ UserTB.belongsTo(RolesTB, {
 
 UserTB.belongsToMany(PermisionsTB, { through: UserPermissionsTB, foreignKey: 'role_id', sourceKey: 'role_id', timestamps: false});
 PermisionsTB.belongsToMany(UserTB, { through: UserPermissionsTB, foreignKey: 'permision_code', sourceKey: 'permision_code',  timestamps: false});
-
+UserTB.belongsToMany(BookTB, { through: UserBooksTB, foreignKey: 'user_id',  timestamps: false});
+BookTB.belongsToMany(UserTB, { through: UserBooksTB, foreignKey: 'book_id',  timestamps: false});
 AuthorTB.belongsToMany(BookTB, { through: LibraryTB, foreignKey: 'author_id', timestamps: false });
 BookTB.belongsToMany(AuthorTB, { through: LibraryTB, foreignKey: 'book_id', timestamps: false });
 
-UserTB.belongsToMany(BookTB, { through: UserBooksTB, foreignKey: 'user_id',  timestamps: false});
-BookTB.belongsToMany(UserTB, { through: UserBooksTB, foreignKey: 'book_id',  timestamps: false});
+
+
 
 
 sequelize.sync({ force: false })
