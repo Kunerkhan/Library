@@ -8,7 +8,7 @@ exports.getRoles = (req, res) => {
     let roles = [];
 
    RolesTB.findAll({
-        attributes: ['role_id', 'role_name'],
+        attributes: ['roleId', 'roleName'],
           }).then(role => {
             res.status(200).json(role);
           })

@@ -9,14 +9,14 @@ class Library extends React.Component {
     state = {
         books: [],
         userBooks: [],
-        book_name: ''
+        bookName: ''
     }
 
     getBooks = async () => {
         const res = await fetch('http://localhost:8080/library', {
             method: 'GET',
             headers: {
-                'Authorization': `${localStorage.getItem('user_role')}`,
+                'Authorization': `${localStorage.getItem('userRole')}`,
                 'Content-Type': 'application/json'
             }
         });
@@ -27,10 +27,10 @@ class Library extends React.Component {
     }
 
     getUserBooks = async () => {
-        const res = await fetch(`http://localhost:8080/userbook/${localStorage.getItem('user_id')}`, {
+        const res = await fetch(`http://localhost:8080/userbook/${localStorage.getItem('userId')}`, {
             method: 'GET',
             headers: {
-                'Authorization': `${localStorage.getItem('user_role')}`,
+                'Authorization': `${localStorage.getItem('userRole')}`,
                 'Content-Type': 'application/json'
             }
         });
@@ -52,10 +52,10 @@ class Library extends React.Component {
 
     searchBook = async(e) => {
         e.preventDefault();
-        const res = await fetch(`http://localhost:8080/searchbook?book_name=${this.state.book_name}`, {
+        const res = await fetch(`http://localhost:8080/searchbook?bookName=${this.state.bookName}`, {
             method: 'GET',
             headers: {
-                'Authorization': `${localStorage.getItem('user_role')}`,
+                'Authorization': `${localStorage.getItem('userRole')}`,
                 'Content-Type': 'application/json'
             }
         });
@@ -86,7 +86,7 @@ class Library extends React.Component {
     render() {
 
         const books = this.state.books;
-        const role = localStorage.getItem('user_role') == 1 ? "Admin" : "USer";
+        const role = localStorage.getItem('userRole') == 1 ? "Admin" : "USer";
 
         return (
             <div class="main">
@@ -105,15 +105,15 @@ class Library extends React.Component {
                                 {
                                     books && books.length ? books.map((book, i) => {
                                         return (
-                                            <tr key={book.library_code} id={book.library_code}>
+                                            <tr key={book.id} id={book.id}>
                                                 <td>{i+1}</td>
-                                                <td>{book.book_name}</td>
+                                                <td>{book.bookName}</td>
                                                 <td>
                                                     { book.authors && book.authors.map(creator => {
                                                         return(
-                                                            <p key={creator.author_id}>
+                                                            <p key={creator.authorId}>
                                                                 {
-                                                                    creator.author_name
+                                                                    creator.authorName
                                                                 }
                                                             </p>
                                                         )
@@ -141,7 +141,7 @@ class Library extends React.Component {
                         <div className="search_book">
                             <form className="add_form" onSubmit={this.searchBook}>
 
-                                <input type="text" name="book_name" value={this.state.book_name} onChange={this.handleChanges}/>
+                                <input type="text" name="bookName" value={this.state.bookName} onChange={this.handleChanges}/>
                                 <button type="submit">
                                     Поиск
                                 </button>

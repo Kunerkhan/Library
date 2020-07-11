@@ -4,16 +4,18 @@ const {
 
 module.exports = sequelize => {
   const attributes = {
-    author_id: {
+    authorId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
-      field: "author_id"
+      field: "authorId"
     },
-    author_name: {
+    authorName: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: false,
+      field: "authorName",
+      unique: true
     }
   };
   const AuthorModel = sequelize.define("author", attributes);

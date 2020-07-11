@@ -20,7 +20,7 @@ exports.getAllbooks = async (req, res) => {
     let { authorization } = req.headers;
 
     let access = await checkPermission(GET_BOOKS, authorization);
-
+    console.log(access);
     if (access) {
         BookTB.findAll({
             include: [
@@ -37,12 +37,12 @@ exports.getAllbooks = async (req, res) => {
                 bookArr = resbooks && resbooks.map((books) => {
 
                     return {
-                        book_id: books.dataValues.book_id,
-                        book_name: books.dataValues.book_name,
+                        bookId: books.dataValues.bookId,
+                        bookName: books.dataValues.bookName,
                         authors: books.dataValues.authors.map(author => {
                             return {
-                                author_id: author.author_id,
-                                author_name: author.author_name
+                                authorId: author.authorId,
+                                authorName: author.authorName
                             }
                         })
                     }

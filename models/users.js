@@ -4,31 +4,32 @@ const {
 
 module.exports = sequelize => {
   const attributes = {
-    user_id: {
+    userId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
       comment: null,
-      field: "user_id"
+      field: "userId"
     },
-    user_name: {
+    userName: {
       type: DataTypes.STRING(20),
       allowNull: true,
       defaultValue: null,
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "user_name"
+      field: "userName",
+      unique: true
     },
-    user_password: {
+    userPassword: {
       type: DataTypes.STRING(30),
       allowNull: true,
       defaultValue: null,
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "user_password"
+      field: "userPassword"
     }
   };
 

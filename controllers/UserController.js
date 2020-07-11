@@ -11,29 +11,29 @@ const {
   ADD_USER, ADD_USER_BOOK,
   EDIT_USER_PROFILE, GET_USER_BOOK,
   GET_USERS, SEARCH_BOOK,
-  GET_USER_ID, EDIT_USER
+  GET_USER_ID, EDIT_USER, GET_ROLES
 } = require('./roles');
 
 
 /* GET home page. */
 exports.login = (req, res) => {
 
-  const username = req.body.user_name;
-  const password = req.body.user_password;
+  const username = req.body.userName;
+  const password = req.body.userPassword;
   console.log(req.body)
 
   UserTB.findOne({
     where: {
-      user_name: username
+      userName: username
     }
   })
     .then(user => {
       console.log(user);
-      if (password === user.user_password) {
+      if (password === user.userPassword) {
 
         res.status(200).send({
-          user_id: user.user_id,
-          role_id: user.role_id
+          userId: user.userId,
+          roleId: user.roleId
         });
       }
       else {
@@ -56,7 +56,7 @@ exports.getUsers = async (req, res) => {
 
   if (access) {
     UserTB.findAll({
-      attributes: ['user_id', 'user_name', 'user_password', 'role_id']
+      attributes: ['userId', 'userName', 'userPassword', 'roleId']
     }).then(users => {
       res.status(200).json(users);
     })
@@ -376,7 +376,7 @@ exports.search = async (req, res) => {
   let { authorization } = req.headers;
 
   
-  let query = req.query.book_name;
+  let query = req.query.bookName;
   console.log(query);
   let access = await checkPermission(SEARCH_BOOK, authorization);
 
@@ -386,7 +386,7 @@ exports.search = async (req, res) => {
         AuthorTB
     ],
       where: {
-        book_name: query
+        bookName: query
       }
     }).then(book => {
       
@@ -395,12 +395,12 @@ exports.search = async (req, res) => {
          console.log(book);
          let result = book && book.map((item) => {
            return {
-            book_id: item.dataValues.book_id,
-            book_name: item.dataValues.book_name,
+            bookId: item.dataValues.bookId,
+            bookName: item.dataValues.bookName,
             authors: item.dataValues.authors.map(author => {
              return {
-               author_id: author.author_id,
-               author_name: author.author_name
+               authorId: author.authorId,
+               authorName: author.authorName
              }})
            }
          })

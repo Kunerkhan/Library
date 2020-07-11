@@ -4,22 +4,23 @@ const {
 
 module.exports = sequelize => {
   const attributes = {
-    role_id: {
+    roleId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
       comment: null,
-      field: "role_id"
+      field: "roleId"
     },
-    role_name: {
+    roleName: {
       type: DataTypes.STRING(20),
       allowNull: true,
       defaultValue: null,
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "role_name"
+      field: "roleName",
+      unique: true
     }
   };
   const RolesModel = sequelize.define("roles", attributes);

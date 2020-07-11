@@ -8,7 +8,7 @@ const AUTHORMODEL = require('./author');
 const BOOKMODEL = require('./book');
 const LIBRARYMODEL = require('./library');
 const USERBOOKSMODEL = require('./userbooks');
-const PERMISIONSMODEL = require('./permisions');
+const PERMISIONSMODEL = require('./permissions');
 const USERPERMISSIONSMODEL = require('./userpermisions');
 const USERMODEL = require('./users');
 const ROLESMODEL = require('./roles');
@@ -34,23 +34,23 @@ const UserTB = USERMODEL(sequelize, Sequelize);
 const RolesTB = ROLESMODEL(sequelize, Sequelize);
 
 RolesTB.hasMany(UserTB,  { foreignKey: {
-  name: 'role_id'
+  name: 'roleId'
 },
-targetKey: 'role_id'
+targetKey: 'roleId'
 });
 UserTB.belongsTo(RolesTB, {
   foreignKey: {
-    name: 'role_id'
+    name: 'roleId'
   },
-  targetKey: 'role_id'
+  targetKey: 'roleId'
 });
 
-RolesTB.belongsToMany(PermisionsTB, { through: UserPermissionsTB, foreignKey: 'role_id', sourceKey: 'role_id', timestamps: false});
-PermisionsTB.belongsToMany(RolesTB, { through: UserPermissionsTB, foreignKey: 'permision_code', sourceKey: 'permision_code',  timestamps: false});
-UserTB.belongsToMany(BookTB, { through: UserBooksTB, foreignKey: 'user_id',  timestamps: false});
-BookTB.belongsToMany(UserTB, { through: UserBooksTB, foreignKey: 'book_id',  timestamps: false});
-AuthorTB.belongsToMany(BookTB, { through: LibraryTB, foreignKey: 'author_id', timestamps: false });
-BookTB.belongsToMany(AuthorTB, { through: LibraryTB, foreignKey: 'book_id', timestamps: false });
+RolesTB.belongsToMany(PermisionsTB, { through: UserPermissionsTB, foreignKey: 'roleId', sourceKey: 'roleId', timestamps: false});
+PermisionsTB.belongsToMany(RolesTB, { through: UserPermissionsTB, foreignKey: 'permisionCode', sourceKey: 'permisionCode',  timestamps: false});
+UserTB.belongsToMany(BookTB, { through: UserBooksTB, foreignKey: 'userId',  timestamps: false});
+BookTB.belongsToMany(UserTB, { through: UserBooksTB, foreignKey: 'bookId',  timestamps: false});
+AuthorTB.belongsToMany(BookTB, { through: LibraryTB, foreignKey: 'authorId', timestamps: false });
+BookTB.belongsToMany(AuthorTB, { through: LibraryTB, foreignKey: 'bookId', timestamps: false });
 
 
 

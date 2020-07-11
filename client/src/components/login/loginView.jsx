@@ -7,10 +7,10 @@ import './login.css';
 class Login extends React.Component {
 
 state = {
-    user_name: '',
-    user_password: '',
-    user_id: 0,
-    user_role: 0,
+    userName: '',
+    userPassword: '',
+    userId: 0,
+    userRole: 0,
     message: '',
     error: false
 };
@@ -21,7 +21,7 @@ handleChanges = (e) => {
     this.setState({
         [name]: e.target.value
     });
-    
+    console.log(this.state.userPassword)
 }
 
 login = (e) => {
@@ -29,8 +29,8 @@ login = (e) => {
 
     let err;
     const user = {
-        user_name: this.state.user_name,
-        user_password: this.state.user_password
+        userName: this.state.userName,
+        userPassword: this.state.userPassword
     }
 
     console.log(user);
@@ -39,7 +39,7 @@ login = (e) => {
         headers: {
         'content-type': 'application/json',
         'Access-Control-Allow-Origin': '*'
-    }
+        }
     };
 
     axios.post('http://localhost:8080/login', user, config)
@@ -48,9 +48,9 @@ login = (e) => {
              {	
                  
                 console.log(res);
-                 localStorage.setItem('user_id', res.data.user_id);
-                 localStorage.setItem('user_role', res.data.role_id);
-                 console.log(localStorage.getItem('user_id'));
+                 localStorage.setItem('userId', res.data.userId);
+                 localStorage.setItem('userRole', res.data.roleId);
+                 console.log(localStorage.getItem('userId'));
                  this.props.history.push('/');
              }
              if(res.status == 400)
@@ -86,18 +86,18 @@ hideError = () => {
                             <input 
                             className="login_input" 
                             type="text" 
-                            name="user_name" 
+                            name="userName" 
                             id="name" required 
-                            value={this.state.user_name}
+                            value={this.state.userName}
                             onChange={this.handleChanges}
                             />
                             <label className="login_label">Пароль: </label>
                             <input 
                             className="login_input" 
                             type="password" 
-                            name="user_password" 
+                            name="userPassword" 
                             id="password" required 
-                            value={this.state.user_password}
+                            value={this.state.userPassword}
                             onChange={this.handleChanges}
                             />
                             <button 

@@ -12,8 +12,8 @@ exports.checkPermission = (codename, role) => {
     return UserPermissionsTB.findOne({
         where: {
             [Op.and]: [
-                { permision_code: permission },
-                { role_id: roleId }
+                { permisionCode: permission },
+                { roleId: roleId }
             ]
         }
     }).then(action => {
@@ -22,7 +22,7 @@ exports.checkPermission = (codename, role) => {
             {
                 return false;
             }
-          else if(permission == action.dataValues.permision_code)
+          else if(permission == action.dataValues.permisionCode)
             {
                 return true;
             } 

@@ -8,12 +8,12 @@ import './User.css';
 class User extends React.Component {
     state = {
         users: [],
-        user_name: '',
-        user_password: '',
-        user_role: null,
+        userName: '',
+        userPassword: '',
+        userRole: null,
         roles: [],
-        user_id: 0,
-        user_edit: {},
+        userId: 0,
+        userEdit: {},
         show: false
     }
 
@@ -21,7 +21,7 @@ class User extends React.Component {
         const res = await fetch('http://localhost:8080/users', {
             method: 'GET',
             headers: {
-                'Authorization': `${localStorage.getItem('user_role')}`,
+                'Authorization': `${localStorage.getItem('userRole')}`,
                 'Content-Type': 'application/json'
             }
         });
@@ -37,7 +37,7 @@ class User extends React.Component {
 
         axios.post(`http://localhost:8080/deleteUser/${id}`, id, {
             headers: {
-                'Authorization': `${localStorage.getItem('user_role')}`,
+                'Authorization': `${localStorage.getItem('userRole')}`,
             }
         })
             .then(res => {
@@ -89,16 +89,16 @@ class User extends React.Component {
 
         let err;
         const user = {
-            user_name: this.state.user_name,
-            user_password: this.state.user_password,
-            role_id: this.state.user_role
+            userName: this.state.userName,
+            userPassword: this.state.userPassword,
+            role_id: this.state.userRole
         }
 
         console.log(user);
 
         const config = {
             headers: {
-                'Authorization': `${localStorage.getItem('user_role')}`,
+                'Authorization': `${localStorage.getItem('userRole')}`,
             }
         };
 
@@ -136,7 +136,7 @@ class User extends React.Component {
     getRoles = async () => {
         const res = await fetch('http://localhost:8080/roles')
         const json = await res.json();
-        this.setState({
+        await this.setState({
             roles: json
         });
     }
@@ -148,21 +148,21 @@ class User extends React.Component {
             const res = await fetch(`http://localhost:8080/user/${id}`, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `${localStorage.getItem('user_role')}`,
+                    'Authorization': `${localStorage.getItem('userRole')}`,
                     'Content-Type': 'application/json'
                 }
             });
             const json = await res.json();
             const data = json;
             this.setState({
-                user_edit: json
+                userEdit: json
             });
         }
 
     }
 
-    componentWillMount = () => {
-        this.getUsers();
+    componentWillMount = async() => {
+       this.getUsers();
         this.getRoles();
         
     }
@@ -171,7 +171,7 @@ class User extends React.Component {
 
         const users = this.state.users;
         const roles = this.state.roles;
-
+        console.log(roles)
         return (
             <div className="main">
                 <div className="container">
@@ -189,14 +189,14 @@ class User extends React.Component {
                                 {
                                     users && users.length ? users.map((user, i) => {
                                         return (
-                                            <tr key={user.user_id} id={user.user_id}>
+                                            <tr key={user.userId} id={user.userId}>
                                                 <td>{i + 1}</td>
-                                                <td>{user.user_name}</td>
-                                                <td>{user.user_password}</td>
-                                                <td>{user.role_id == 1 ? 'Admin' : 'User'}</td>
+                                                <td>{user.userName}</td>
+                                                <td>{user.userPassword}</td>
+                                                <td>{user.roleId == 1 ? 'Admin' : 'User'}</td>
                                                 <td>
-                                                    <button onClick={(e) => this.deleteUser(user.user_id)}>Удалить</button>
-                                                    <button onClick={(e) => this.editUser(user.user_id)}>Редактировать</button>
+                                                    <button onClick={(e) => this.deleteUser(user.userId)}>Удалить</button>
+                                                    <button onClick={(e) => this.editUser(user.userId)}>Редактировать</button>
                                                 </td>
                                             </tr>
                                         )
@@ -207,7 +207,7 @@ class User extends React.Component {
                         </div>
 
                         <EditUser 
-                            edit={this.state.user_edit && this.state.user_edit} 
+                            edit={this.state.userEdit && this.state.userEdit} 
                             show={this.state.show} 
                             roles={this.state.roles && this.state.roles}
                             />
@@ -219,32 +219,32 @@ class User extends React.Component {
                                 <input
                                     className="login_input"
                                     type="text"
-                                    name="user_name"
+                                    name="userName"
                                     id="name" required
-                                    autocomplete="user_name"
-                                    value={this.state.user_name}
+                                    autocomplete="userName"
+                                    value={this.state.userName}
                                     onChange={this.handleChanges}
                                 />
                                 <label className="login_label">Пароль: </label>
                                 <input
                                     className="login_input"
                                     type="password"
-                                    name="user_password"
+                                    name="userPassword"
                                     id="password" required
-                                    value={this.state.user_password}
+                                    value={this.state.userPassword}
                                     onChange={this.handleChanges}
                                 />
-                                <select name="user_role" id="select" value={this.state.user_role} onChange={this.handleChanges}>
+                                <select name="userRole" id="select" value={this.state.userRole} onChange={this.handleChanges}>
                                     {
                                         roles && roles.map((role) => {
                                             return (
 
                                                 <option
                                                     className="role_option"
-                                                    key={role.role_id}
-                                                    value={role.role_id}
+                                                    key={role.roleId}
+                                                    value={role.roleId}
                                                     selected>
-                                                    {role.role_name}
+                                                    {role.roleName}
                                                 </option>
                                             )
                                         })

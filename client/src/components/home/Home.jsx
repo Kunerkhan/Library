@@ -6,8 +6,9 @@ import './style.css';
 
 class Home extends React.Component {
   state = {
-    role: localStorage.getItem('user_role') == 1 ? 'Admin' : "User"
+    role: localStorage.getItem('userRole') == 1 ? 'Admin' : "User"
   }
+
 
   render() {
 

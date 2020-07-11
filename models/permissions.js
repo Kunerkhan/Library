@@ -4,23 +4,23 @@ const {
 
 module.exports = sequelize => {
   const attributes = {
-    permision_code: {
+    permisionCode: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
-      field: "permision_code"
+      field: "permisionCode"
     },
-    permision_name: {
+    permissionName: {
       type: DataTypes.STRING(20),
       allowNull: true,
       defaultValue: null,
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "permision_name"
+      field: "permissionName"
     }
   };
-  const PermisionsModel = sequelize.define("permisions", attributes);
+  const PermisionsModel = sequelize.define("permissions", attributes);
   return PermisionsModel;
 };

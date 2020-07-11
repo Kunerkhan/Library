@@ -4,17 +4,18 @@ const {
 
 module.exports = sequelize => {
   const attributes = {
-    book_id: {
+    bookId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
-      field: "book_id"
+      field: "bookId"
     },
-    book_name: {
+    bookName: {
       type: DataTypes.STRING(50),
       allowNull: false,
-      field: "book_name"
+      field: "bookName",
+      unique: true
     }
   };
   const BookModel = sequelize.define("book", attributes);

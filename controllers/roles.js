@@ -13,6 +13,7 @@ const ADD_USER_BOOK = 11;
 const EDIT_USER_PROFILE = 12;
 const GET_USER_BOOK = 13;
 const EDIT_USER = 14;
+const GET_ROLES = 15;
 
 module.exports = {
     ADD_BOOK, GET_BOOKS,
@@ -22,5 +23,5 @@ module.exports = {
     EDIT_USER_PROFILE, GET_USER_BOOK,
     GET_USERS, SEARCH_BOOK,
     GET_USER_ID,
-    EDIT_USER
+    EDIT_USER, GET_ROLES
 }

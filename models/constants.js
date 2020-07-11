@@ -1,7 +1,7 @@
-const HOST     = '127.0.0.1';
+const HOST     = 'localhost';
 const USER     = 'root';
 const PASSWORD = 'password';
-const DATABASE_NAME = 'rkp';
+const DATABASE_NAME = 'lib_2_JS';
 const DIALECT= 'mysql';
 
 module.exports = {

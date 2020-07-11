@@ -14,7 +14,7 @@ class Library extends React.Component {
 
         const books = this.props.userBooks;
         console.log(books);
-        const role = localStorage.getItem('user_role') == 1 ? "Admin" : "User";
+        const role = localStorage.getItem('userRole') == 1 ? "Admin" : "User";
 
         return (
             <div className="user_library">
@@ -30,14 +30,14 @@ class Library extends React.Component {
                     {
                         books && books.length ? books.map((book, i) => {
                             return (
-                                <tr key={book.book_id} id={book.book_id}>
+                                <tr key={book.bookId} id={book.bookId}>
                                     <td>{i+1}</td>
-                                    <td>{book.book_name}</td>
+                                    <td>{book.bookName}</td>
                                     <td>{book.authors && book.authors.map(creator => {
                                         return(
-                                            <p key={creator.author_id}>
+                                            <p key={creator.authorId}>
                                                 {
-                                                 creator.author_name
+                                                 creator.authorName
                                                 }
                                             </p>
                                         )

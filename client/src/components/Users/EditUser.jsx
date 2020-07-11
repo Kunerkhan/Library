@@ -77,10 +77,10 @@ class EditUser extends React.Component {
                         className="login_input"
                         type="text"
                         name="username"
-                        autocomplete={user && user.user_name}
+                        autocomplete={user && user.userName}
                         id="name" required
                         value={this.state.username}
-                        placeholder={user && user.user_name}
+                        placeholder={user && user.userName}
                         onChange={this.handleChanges}
                     />
                     <label className="login_label">Пароль: </label>
@@ -88,9 +88,9 @@ class EditUser extends React.Component {
                         className="login_input"
                         type="password"
                         name="userpassword"
-                        autocomplete={user && user.user_password}
+                        autocomplete={user && user.userPassword}
                         id="password" required
-                        placeholder={user && user.user_password}
+                        placeholder={user && user.userPassword}
                         value={this.state.userpassword}
                         onChange={this.handleChanges}
                     />
@@ -101,10 +101,10 @@ class EditUser extends React.Component {
 
                                     <option
                                         className="roleoption"
-                                        key={role.role_id}
-                                        value={role.role_id}
+                                        key={role.roleId}
+                                        value={role.roleId}
                                         selected>
-                                        {role.role_name} 
+                                        {role.roleName} 
                                     </option>
                                 )
                             })
